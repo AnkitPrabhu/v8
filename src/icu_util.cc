@@ -42,7 +42,6 @@ namespace v8 {
 namespace internal {
 
 bool InitializeICU() {
-#if defined(_WIN32) && defined(V8_I18N_SUPPORT)
   // We expect to find the ICU data module alongside the current module.
   HMODULE module = LoadLibraryA(ICU_UTIL_DATA_SHARED_MODULE_NAME);
   if (!module) return false;
@@ -53,10 +52,6 @@ bool InitializeICU() {
   UErrorCode err = U_ZERO_ERROR;
   udata_setCommonData(reinterpret_cast<void*>(addr), &err);
   return err == U_ZERO_ERROR;
-#else
-  // Mac/Linux bundle the ICU data in.
-  return true;
-#endif
 }
 
 } }  // namespace v8::internal
